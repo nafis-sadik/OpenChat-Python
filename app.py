@@ -8,6 +8,7 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     uvicorn.run(app=app, host='0.0.0.0', port=port)
 # Uses uvicoirn server
+# uvicorn main:app --reload
 # Swagger at following links
 #   http://127.0.0.1:8000/redoc
 #   http://127.0.0.1:8000/doc

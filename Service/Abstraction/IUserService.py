@@ -5,7 +5,7 @@ from Data.Model.UserModel import UserModel
 
 
 class IUserService:
-    def register_user(self, user_model: UserModel) -> bool:
+    def register_user(self, user_model: UserModel) -> [bool]:
         raise NotImplementedError
 
     def authenticate_user(self, user_model: UserModel) -> [string]:

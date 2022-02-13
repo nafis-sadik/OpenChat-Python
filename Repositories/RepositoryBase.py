@@ -12,7 +12,7 @@ class RepositoryBase(IRepositoryBase, ABC):
     entity_type = None
 
     def __init__(self, entity: type) -> None:
-        self.engine = create_engine('sqlite:///:database:', echo=False)
+        self.engine = create_engine('sqlite:///open-chat.sqlite', echo=False)
         session_maker = sessionmaker(bind=self.engine)
         self.session = session_maker()
         RepositoryBase.entity_type = entity
