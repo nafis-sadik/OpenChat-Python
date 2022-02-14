@@ -15,3 +15,12 @@ if __name__ == '__main__':
 # Video to audio converter tutorial :https://youtu.be/u5x5RZNtOqE
 # MoviePy fill tutorial : https://youtu.be/2t0I0URiS40
 # Google Cloud Path : https://www.cloudskillsboost.google/paths
+
+# {
+#   "id": "",
+#   "user_name": "nafis-sadik",
+#   "email_id": "string",
+#   "password": "123456",
+#   "Gender": "Male",
+#   "date_of_birth": "1994-06-08T05:28:54.576Z"
+# }
