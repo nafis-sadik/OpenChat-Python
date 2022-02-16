@@ -44,7 +44,9 @@ public_routs = [
     '/api/signup',
     '/api/login',
     '/docs',
-    '/redocs'
+    '/redoc',
+    '/openapi.json',
+    '/favicon.ico'
 ]
 
 
