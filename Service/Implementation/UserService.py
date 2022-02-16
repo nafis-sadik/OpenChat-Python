@@ -31,8 +31,10 @@ class UserService(IUserService, ABC):
         try:
             # Expired after 3 hours
             payload = {
-                "exp": datetime.utcnow() + timedelta(seconds=60 * 60 * 3), "username": username
+                "exp": datetime.now() + timedelta(seconds=60 * 60 * 3), "username": username
             }
+            print(datetime.now())
+            print(datetime.now() + timedelta(seconds=60 * 60 * 3))
             encoded_jwt = jwt.encode(payload, self.secret_key, algorithm=self.security_algo)
             return encoded_jwt
         except Exception as ex:

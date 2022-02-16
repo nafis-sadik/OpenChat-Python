@@ -1,5 +1,6 @@
-import os
 import glob
+import os
+
 from fastapi import APIRouter
 
 from WebApplication.Controllers.UserController import user_module

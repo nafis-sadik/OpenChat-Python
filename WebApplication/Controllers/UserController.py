@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import jwt
 from fastapi import APIRouter
@@ -32,20 +33,6 @@ async def authenticate_user(user_model: UserModel):
     return user_service.authenticate_user(user_model)
 
 
-@user_module.get('/get-friends/{token}')
-async def get_friend_list(token: str):
-    try:
-        from dotenv import load_dotenv
-        from pathlib import Path
-        ROOT_DIR = str(Path(__file__).parent.parent.parent)
-        if load_dotenv(dotenv_path=ROOT_DIR + '/.env'):
-            secret_key = os.getenv('SECRET_KEY')
-            security_algo = os.getenv("SECURITY_ALGORITHM")
-            if secret_key is None or security_algo is None:
-                return False
-            from jwt.algorithms import get_default_algorithms
-            print(get_default_algorithms())
-            decoded = jwt.decode(token, secret_key, algorithms='HS256')
-        return True
-    except Exception as e:
-        return str(e)
+@user_module.get('/validate')
+async def get_friend_list():
+    return True
