@@ -33,8 +33,6 @@ class UserService(IUserService, ABC):
             payload = {
                 "exp": datetime.now() + timedelta(seconds=60 * 60 * 3), "username": username
             }
-            print(datetime.now())
-            print(datetime.now() + timedelta(seconds=60 * 60 * 3))
             encoded_jwt = jwt.encode(payload, self.secret_key, algorithm=self.security_algo)
             return encoded_jwt
         except Exception as ex:
