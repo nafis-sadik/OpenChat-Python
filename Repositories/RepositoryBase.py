@@ -1,6 +1,5 @@
 from abc import ABC
 
-
 import sqlalchemy
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
