@@ -46,7 +46,8 @@ public_routs = [
     '/docs',
     '/redoc',
     '/openapi.json',
-    '/favicon.ico'
+    '/favicon.ico',
+    '/senders'
 ]
 
 
@@ -94,3 +95,10 @@ async def validate_jwt(request: Request, call_next):
             status_code=401,
             content=str(e)
         )
+
+
+# @app.middleware('ws')
+# async def validate_jwt_for_socket(request: Request, call_next):
+#     print(request)
+#     print(call_next)
+#     return

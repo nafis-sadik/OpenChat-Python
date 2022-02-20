@@ -17,7 +17,7 @@ class IRepositoryBase:
     def get_all(self) -> list:
         raise NotImplementedError
 
-    def get_col(self, *args) -> list:
+    def get_col(self, *conditions, **cols) -> list:
         raise NotImplementedError
 
     def get(self, *args) -> list:

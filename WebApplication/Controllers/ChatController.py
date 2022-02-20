@@ -10,7 +10,8 @@ chat_service = APIRouter(prefix='/api')
 @chat_service.get('/senders')
 async def get_senders(chat_data: ChatRecord):
     chatting_service: IChatServices = ChatServices()
-    return chatting_service.get_senders(chat_data.receiver)
+    response = chatting_service.get_senders(chat_data.receiver)
+    return response
 
 
 @chat_service.get('/messages')

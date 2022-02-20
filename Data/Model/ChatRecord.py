@@ -4,7 +4,7 @@ from pydantic.main import BaseModel
 
 
 class ChatRecord(BaseModel):
-    id: str
-    sender: str
+    id: Optional[str]
+    sender: Optional[str]
     message: Optional[str]
-    receiver: str
+    receiver: Optional[str]

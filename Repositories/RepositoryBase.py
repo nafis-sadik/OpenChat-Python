@@ -8,13 +8,12 @@ from Repositories.IRepositoryBase import IRepositoryBase
 
 
 class RepositoryBase(IRepositoryBase, ABC):
-    entity_type = None
 
     def __init__(self, entity: type) -> None:
         self.engine = create_engine('sqlite:///open-chat.sqlite', echo=False)
         session_maker = sessionmaker(bind=self.engine)
         self.session = session_maker()
-        RepositoryBase.entity_type = entity
+        self.entity_type = entity
 
     def get_version(self):
         return sqlalchemy.__version__
@@ -22,11 +21,11 @@ class RepositoryBase(IRepositoryBase, ABC):
     def create_database(self):
         raise NotImplementedError
 
-    def add(self, data: entity_type) -> None:
+    def add(self, data) -> None:
         self.session.add(data)
         self.session.commit()
 
-    def delete(self, data: entity_type) -> None:
+    def delete(self, data) -> None:
         self.session.delete(data)
         self.session.commit()
 
@@ -34,16 +33,16 @@ class RepositoryBase(IRepositoryBase, ABC):
         self.session.commit()
 
     def get_all(self) -> list:
-        return self.session.query(RepositoryBase.entity_type).all()
+        return self.session.query(self.entity_type).all()
 
     def get_count(self) -> int:
-        return self.session.query(RepositoryBase.entity_type).count()
+        return self.session.query(self.entity_type).count()
 
     def get(self, *args) -> list:
-        return self.session.query(RepositoryBase.entity_type).filter(*args).all()
+        return self.session.query(self.entity_type).filter(*args).all()
 
-    def get_col(self, *args) -> list:
-        return self.session.query(*args).all()
+    def get_col(self, **arguments) -> list:
+        return self.session.query(arguments['cols']).filter(arguments['conditions']).all()
 
     def max(self, col_map) -> int:
         return self.session.query(func.max(col_map)).scalar()
