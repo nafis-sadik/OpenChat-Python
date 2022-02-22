@@ -20,7 +20,7 @@ class Users(Base):
 class ChatHistory(Base):
     __tablename__ = 'ChatHistory'
 
-    id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
     sender = Column(String, ForeignKey('Users.id'))
     message = Column(String)
     receiver = Column(String)

@@ -3,19 +3,17 @@ import string
 import uuid
 from abc import ABC
 from datetime import datetime, timedelta
-from pathlib import Path
 from typing import Union, Any
 
 import bcrypt
 import jwt
+from dotenv import load_dotenv
 
 from Data.Entities import Users
 from Data.Model.UserModel import UserModel
 from Repositories.IRepositoryBase import IRepositoryBase
 from Repositories.RepositoryBase import RepositoryBase
 from Service.Abstraction.IUserService import IUserService
-from dotenv import load_dotenv
-
 from Service.Implementation import ROOT_DIR
 
 
@@ -69,3 +67,9 @@ class UserService(IUserService, ABC):
         except Exception as ex:
             print(str(ex))
             return None
+
+    def get_username_from_user_id(self, user_id: string) -> string:
+        user = self.user_repository.get(Users.id == user_id)
+        if user is not None and len(user) > 0:
+            return user[0].user_name
+        return ''

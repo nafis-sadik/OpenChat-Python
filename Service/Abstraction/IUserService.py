@@ -10,3 +10,6 @@ class IUserService:
 
     def authenticate_user(self, user_model: UserModel) -> [string]:
         raise NotImplementedError
+
+    def get_username_from_user_id(self, user_id: string) -> string:
+        raise NotImplementedError
