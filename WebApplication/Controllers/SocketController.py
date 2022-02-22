@@ -22,4 +22,7 @@ async def websocket_endpoint(websocket: WebSocket):
         data['receiver'] = user_service.get_username_from_user_id(data['receiver'])
         message_service.save_message(data)
         print(f"Message text was: {data}")
-        await websocket.send_text(json.dumps(data))
+        counter: int = 15
+        while counter > 0:
+            await websocket.send_text(json.dumps(data))
+            counter = counter - 1
