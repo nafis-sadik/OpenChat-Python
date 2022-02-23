@@ -1,13 +1,19 @@
 import json
 
 from fastapi import APIRouter, WebSocket
+from starlette.websockets import WebSocketDisconnect
 
+from Data.Model.ChatRecord import ChatRecord
+from Data.Model.UserModel import UserModel
+from Service.Abstraction.IChatServices import IChatServices
 from Service.Abstraction.IMessageService import IMessageService
 from Service.Abstraction.IUserService import IUserService
+from Service.Implementation.ChatServices import ChatServices
 from Service.Implementation.MessageService import MessageService
 from Service.Implementation.UserService import UserService
 
 socket_module = APIRouter(prefix='/sock')
+manager: IChatServices = ChatServices()
 
 
 @socket_module.websocket('/ws')
@@ -26,3 +32,23 @@ async def websocket_endpoint(websocket: WebSocket):
         while counter > 0:
             await websocket.send_text(json.dumps(data))
             counter = counter - 1
+
+
+@socket_module.websocket("/connect/{user_id}")
+async def websocket_connect(websocket: WebSocket, user_id: str):
+    user: UserModel = UserModel()
+    user.id = user_id
+    connected = await manager.connect(websocket, user)
+    try:
+        while connected:
+            data = await websocket.receive_text()
+            message = json.loads(data)
+
+            message_object: ChatRecord = ChatRecord()
+            message_object.message = message['message']
+            message_object.sender = user_id
+            message_object.receiver = message['receiver']
+            await manager.send(message_object)
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        await manager.broadcast(f"Client #{user_id} left the chat")
