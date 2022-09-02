@@ -20,10 +20,5 @@ async def register_user(user_model: UserModel):
 
 @user_module.post('/login')
 async def authenticate_user(user_model: UserModel):
-    user_name = user_model.user_name
-    password = user_model.password
     user_service: IUserService = UserService()
-    user_model: UserModel = UserModel()
-    user_model.user_name = user_name
-    user_model.password = password
     return user_service.authenticate_user(user_model)
