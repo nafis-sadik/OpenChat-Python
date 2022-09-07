@@ -1,0 +1,8 @@
+bcrypt
+fastapi
+PyJWT
+python-dotenv
+SQLAlchemy
+starlette
+typing_extensions
+uvicorn
