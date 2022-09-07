@@ -1,14 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
 
 from Data.Model.ChatRecord import ChatRecord
 from Service.Abstraction.IChatServices import IChatServices
 from Service.Implementation.ChatServices import ChatServices
-# from WebApplication import validate_jwt
+
+reusable_oauth2 = OAuth2PasswordBearer(
+    scheme_name="JWT",
+    tokenUrl="/api/login/"
+)
 
 chat_service = APIRouter(
     prefix='/api',
     tags=["Chat"],
-    # dependencies=[Depends(validate_jwt)],
+    dependencies=[Depends(reusable_oauth2)],
     responses={
         404: {"description": "Not found"},
         200: {"description": "OK"}
