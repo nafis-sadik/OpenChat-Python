@@ -1,6 +1,6 @@
 anyio==3.5.0
 asgiref==3.5.0
-bcrypt
+bcrypt==3.2.0
 cffi==1.15.0
 click==8.0.3
 colorama==0.4.4

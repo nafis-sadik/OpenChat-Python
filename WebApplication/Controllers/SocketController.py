@@ -38,7 +38,7 @@ async def websocket_endpoint(websocket: WebSocket):
 async def websocket_connect(websocket: WebSocket, user_id: str):
     user: UserModel = UserModel()
     user.id = user_id
-    connected = await manager.connect(websocket, user)
+    connected = manager.connect(websocket, user)
     try:
         while connected:
             data = await websocket.receive_text()

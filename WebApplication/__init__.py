@@ -64,7 +64,6 @@ async def validate_jwt(request: Request, call_next):
                     status_code=401,
                     detail='Unable to parse authentication token'
                 )
-            token: string = request.headers.get('bearer')
             current_route: string = request.url.path
 
             # No auth required if it's public url
@@ -74,8 +73,10 @@ async def validate_jwt(request: Request, call_next):
                 response.headers["X-Process-Time"] = str(process_time)
                 return response
             else:
+                token: str = request.headers.get('Authorization')
                 if token:
-                    decoded: dict = jwt.decode(token, secret_key, algorithms=security_algo)
+                    token = token.split()[1].replace('"','')
+                    decoded: dict = jwt.decode(jwt=token, key=secret_key, algorithms=security_algo)
                     if datetime.fromtimestamp(decoded['exp']) >= datetime.now() or current_route in public_routs:
                         response = await call_next(request)
                         process_time = time.time() - start_time
@@ -88,11 +89,11 @@ async def validate_jwt(request: Request, call_next):
                     )
         return responses.JSONResponse(
             status_code=401,
-            content='Unauthorized Access'
+            content='Unauthorized Access 2'
         )
     except Exception as e:
         return responses.JSONResponse(
-            status_code=401,
+            status_code=500,
             content=str(e)
         )
 

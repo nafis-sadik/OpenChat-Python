@@ -3,7 +3,7 @@ import string
 import uuid
 from abc import ABC
 from datetime import datetime, timedelta
-from typing import Union, Any
+from typing import Optional, Union, Any
 
 import bcrypt
 import jwt
@@ -36,7 +36,7 @@ class UserService(IUserService, ABC):
         except Exception as ex:
             return str(ex)
 
-    def register_user(self, user_model: UserModel) -> [bool]:
+    def register_user(self, user_model: UserModel) -> Optional[bool]:
         try:
             users_found: list = self.user_repository.get(Users.user_name == user_model.user_name)
             if users_found is None or len(users_found) > 0:
@@ -54,11 +54,11 @@ class UserService(IUserService, ABC):
             print(str(ex))
             return None
 
-    def authenticate_user(self, user_model: UserModel) -> [string]:
+    def authenticate_user(self, user_model: UserModel) -> Optional[str]:
         try:
             user_entity: list = self.user_repository.get(Users.user_name == user_model.user_name)
             if user_entity is not None and len(user_entity) > 0:
-                if bcrypt.checkpw(bytes(user_model.password, 'utf-8'), user_entity[0].password):
+                if bcrypt.checkpw(user_model.password.encode('utf-8'), user_entity[0].password):
                     return self.generate_token(username=user_model.user_name)
                 else:
                     return 'Wrong Password'
@@ -68,7 +68,7 @@ class UserService(IUserService, ABC):
             print(str(ex))
             return None
 
-    def get_username_from_user_id(self, user_id: string) -> string:
+    def get_username_from_user_id(self, user_id: string) -> str:
         user = self.user_repository.get(Users.id == user_id)
         if user is not None and len(user) > 0:
             return user[0].user_name
